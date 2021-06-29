@@ -1,6 +1,3 @@
-from os import write
-import tabula
-import pandas as pd
 import PyPDF2
 import xlsxwriter
 import tkinter as tk
@@ -83,11 +80,14 @@ driver_control = 0
 
 driverData = []
 
+#FP and Q = 2, R = 1
+offset = 2
+
 for page in pagesData : 
 
     for j in range(len(page)):
-        if (page[j].isdigit()) and (not is_lap_time(page[j + 2])) and (len(page[j + 2].split(' ')) == 2) and (not "Formula" in page[j + 2]):
-            print(f"found driver {page[j]} - {page[j+2]}! driver count: {x}")
+        if (page[j].isdigit()) and (not is_lap_time(page[j + offset])) and (len(page[j + offset].split(' ')) == 2) and (not "Formula" in page[j + offset]) and (not page[j + offset] == ' '):
+            print(f"found driver {page[j]} - {page[j+offset]}! driver count: {x}")
             driverData.append([])
             driver_control = x
             driverData[driver_control].append(page[j])
@@ -103,7 +103,7 @@ driver_times = []
 
 for driver in driverData:
 
-    drivers.append(f"{driver[0]} - {driver[2].split(' ')[1][0:3]}")
+    drivers.append(f"{driver[0]} - {driver[offset].split(' ')[1][0:3]}")
 
     first_vector = []
     second_vector = []
